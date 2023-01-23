@@ -13,7 +13,7 @@ def token():
     myidtoken = request.headers['X-MS-TOKEN-AAD-ID-TOKEN']
     myaccesstoken = request.headers['X-MS-TOKEN-AAD-ACCESS-TOKEN']
     myaccesstokenexpiry = request.headers['X-MS-TOKEN-AAD-EXPIRES-ON']
-    myrefreshtoken = ['X-MS-TOKEN-AAD-REFRESH-TOKEN']
+    myrefreshtoken = request.headers['X-MS-TOKEN-AAD-REFRESH-TOKEN']
     return jsonify(
         access_token=myaccesstoken,
         expires_on=myaccesstokenexpiry,
