@@ -10,15 +10,19 @@ def home():
 
 @app.route('/token')
 def token():
-    myidtoken = request.headers['X-MS-TOKEN-AAD-ID-TOKEN']
-    myaccesstoken = request.headers['X-MS-TOKEN-AAD-ACCESS-TOKEN']
-    myaccesstokenexpiry = request.headers['X-MS-TOKEN-AAD-EXPIRES-ON']
-    myrefreshtoken = request.headers['X-MS-TOKEN-AAD-REFRESH-TOKEN']
+    my_id_token = request.headers['X-MS-TOKEN-AAD-ID-TOKEN']
+    my_access_token = request.headers['X-MS-TOKEN-AAD-ACCESS-TOKEN']
+    my_access_token_expiry = request.headers['X-MS-TOKEN-AAD-EXPIRES-ON']
+    my_refresh_token = request.headers['X-MS-TOKEN-AAD-REFRESH-TOKEN']
+    principal_name = request.headers['X-MS-CLIENT-PRINCIPAL-NAME']
+    client_principal_id = request.headers['X-MS-CLIENT-PRINCIPAL-ID']
     return jsonify(
-        access_token=myaccesstoken,
-        expires_on=myaccesstokenexpiry,
-        refresh_token=myrefreshtoken,
-        id_token=myidtoken
+        access_token=my_access_token,
+        expires_on=my_access_token_expiry,
+        refresh_token=my_refresh_token,
+        id_token=my_id_token,
+        principal=principal_name,
+        client_principal=client_principal_id
     )
 
 @app.route('/sql')
