@@ -1,17 +1,20 @@
 from flask import Flask, request, jsonify
 import pyodbc
 import os
+import jwt
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "<h1>It Works Team!!</h1>"
+    return "<h1>It Works!</h1>"
 
 @app.route('/token')
 def token():
     my_id_token = request.headers['X-MS-TOKEN-AAD-ID-TOKEN']
     my_access_token = request.headers['X-MS-TOKEN-AAD-ACCESS-TOKEN']
+    my_jwt_claims = jwt.decode(my_access_token, options={"verify_signature": False})
+    my_jwt_header = jwt.get_unverified_header(my_access_token)
     my_access_token_expiry = request.headers['X-MS-TOKEN-AAD-EXPIRES-ON']
     # my_refresh_token = request.headers['X-MS-TOKEN-AAD-REFRESH-TOKEN']
     principal_name = request.headers['X-MS-CLIENT-PRINCIPAL-NAME']
@@ -22,7 +25,9 @@ def token():
         # refresh_token=my_refresh_token,
         id_token=my_id_token,
         email_id=principal_name,
-        user_id=client_principal_id
+        user_id=client_principal_id,
+        jwt_header=my_jwt_header,
+        jwt_claims=my_jwt_claims
     )
 
 @app.route('/sql')
